@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 #install all the necessary packages
 RUN apt update && apt install -y \
@@ -46,9 +46,9 @@ RUN USER=root . /root/.nix-profile/etc/profile.d/nix.sh && \
 #download rhodecode enterprise and vcsserver
 RUN mkdir rhodecode-develop && \
 	cd rhodecode-develop && \
-	hg clone https://code.rhodecode.com/rhodecode-enterprise-ce && \
-	hg clone https://code.rhodecode.com/rhodecode-vcsserver && \
-	hg clone https://code.rhodecode.com/rhodecode-tools-ce -u v1.1.0
+	hg clone https://code.rhodecode.com/rhodecode-enterprise-ce -u v4.26.0  && \
+	hg clone https://code.rhodecode.com/rhodecode-vcsserver -u v4.26.0 && \
+	hg clone https://code.rhodecode.com/rhodecode-tools-ce -u v1.4.0
 
 #fix subversion archive
 RUN cd rhodecode-develop/rhodecode-vcsserver && sed -ie 's/www.apache.org/archive.apache.org/' default.nix
@@ -101,6 +101,6 @@ RUN USER=root . /root/.nix-profile/etc/profile.d/nix.sh && nix-env -i glibc-loca
 COPY rhodecode /bin/rhodecode
 COPY start.sh /start.sh
 RUN chmod +x start.sh /bin/rhodecode
-VOLUME /rhodecode-develop/rhodecode-enterprise-ce/configs /var/lib/postgresql /root/my_dev_repos
+#VOLUME /rhodecode-develop/rhodecode-enterprise-ce/configs /var/lib/postgresql /root/my_dev_repos
 EXPOSE 5000
 CMD /start.sh
