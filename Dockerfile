@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 #install all the necessary packages
 RUN apt update && apt install -y \
 	curl vim bzip2 sudo libapr1-dev libaprutil1-dev libsvn-dev \ 
